@@ -1,10 +1,9 @@
 // =================================================================
 // CONFIGURACIÓN DE CONEXIÓN
 // =================================================================
-// Mientras pruebes en tu PC, déjalo en 'localhost'. 
-// Cuando tu compañera se conecte a tu PC, cambia 'localhost' por tu IP (Ej: '192.168.1.50')
-const IP_SERVIDOR = 'localhost'; 
-const URL_API = `http://${IP_SERVIDOR}:3000/api/dashboard`;
+// Al usar una ruta relativa, el frontend buscará la API en el mismo 
+// host y puerto desde donde se cargó el HTML (ej: http://localhost:3000)
+const URL_API = '/api/dashboard'; 
 
 // Variables globales para destruir los gráficos previos si se vuelve a cargar la función
 let chartPrevision = null;
@@ -53,9 +52,9 @@ function cargarDashboard(data) {
   chartProblemas = new Chart(document.getElementById("graficoProblemas"), {
     type: "pie",
     data: {
-      labels: data.problemas.labels,
+      labels: data.problems?.labels || data.problemas.labels,
       datasets: [{
-        data: data.problemas.values,
+        data: data.problems?.values || data.problemas.values,
         backgroundColor: [
           '#ef4444', '#f59e0b', '#3b82f6', '#10b981', '#6366f1'
         ]
@@ -90,7 +89,7 @@ function cargarDashboard(data) {
 // =================================================================
 async function obtenerDatosDelServidor() {
   try {
-    console.log(`Intentando conectar a: ${URL_API}`);
+    console.log(`Intentando conectar a la API en: ${URL_API}`);
     const respuesta = await fetch(URL_API);
     
     if (!respuesta.ok) {

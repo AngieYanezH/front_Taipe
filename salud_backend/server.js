@@ -1,14 +1,21 @@
 const express = require('express');
 const cors = require('cors');
+const path = require('path'); // Módulo nativo para manejar rutas de carpetas
 const db = require('./db');
 
 const app = express();
-app.use(cors()); // Permite que tu frontend se conecte al backend
+app.use(cors());
 app.use(express.json());
 
+// =================================================================
+// 🚀 TRUCO: SERVIR LOS ARCHIVOS DEL FRONTEND DESDE EL PUERTO 3000
+// =================================================================
+// Le decimos a Express que busque index.html, style.css y app.js en la carpeta raíz (un nivel arriba)
+app.use(express.static(path.join(__dirname, '../')));
+
+// Tu ruta de la API para los KPIs (Se queda exactamente igual)
 app.get('/api/dashboard', async (req, res) => {
   try {
-    // 1. KPI Generales: Total, Espera, Traslado y Satisfacción Promedio
     const [kpis] = await db.query(`
       SELECT 
         COUNT(*) AS totalEncuestados,
@@ -18,7 +25,6 @@ app.get('/api/dashboard', async (req, res) => {
       FROM fact_acceso_salud
     `);
 
-    // 2. Gráfico Distribución por Previsión
     const [previsiones] = await db.query(`
       SELECT p.tipo_prevision AS label, COUNT(*) AS value
       FROM fact_acceso_salud f
@@ -26,7 +32,6 @@ app.get('/api/dashboard', async (req, res) => {
       GROUP BY p.tipo_prevision
     `);
 
-    // 3. Gráfico Principales Problemas
     const [problemas] = await db.query(`
       SELECT problema_principal AS label, COUNT(*) AS value
       FROM fact_acceso_salud
@@ -36,7 +41,6 @@ app.get('/api/dashboard', async (req, res) => {
       LIMIT 5
     `);
 
-    // Estructurar la respuesta exactamente igual a como la espera tu app.js
     const dashboardData = {
       totalEncuestados: kpis[0].totalEncuestados || 0,
       esperaPromedio: kpis[0].esperaPromedio || 0,
@@ -52,7 +56,6 @@ app.get('/api/dashboard', async (req, res) => {
         labels: problemas.map(pr => pr.label),
         values: problemas.map(pr => pr.value)
       },
-      // Dejamos la calidad simulada estructuralmente para que tu tabla no se rompa
       calidad: [
         { campo: "tipo_prevision", completitud: "100%", estado: "Verde" },
         { campo: "satisfaccion", completitud: "100%", estado: "Verde" },
@@ -70,5 +73,5 @@ app.get('/api/dashboard', async (req, res) => {
 
 const PORT = 3000;
 app.listen(PORT, () => {
-  console.log(`Servidor de Salud BI corriendo en http://localhost:${PORT}`);
+  console.log(`Servidor BI corriendo en: http://localhost:${PORT}`);
 });
