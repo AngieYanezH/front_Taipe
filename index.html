@@ -5,12 +5,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Dashboard Acceso a Salud</title>
   <link rel="stylesheet" href="style.css">
+  <!-- 1. Importamos la librería de Chart.js para que funcionen tus gráficos -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
 
   <aside class="sidebar">
     <h2>Salud BI</h2>
-
     <nav>
       <a href="#" class="active">Dashboard</a>
       <a href="#">Encuestados</a>
@@ -26,105 +27,74 @@
       <div>
         <h1>Dashboard Acceso a Servicios de Salud</h1>
         <p>Análisis de encuesta, ETL, MySQL y visualización de indicadores.</p>
+        <!-- Elemento opcional para renderizar el SLA dinámicamente -->
+        <span id="estadoSLA" class="sla"></span>
       </div>
-
       <button>Exportar reporte</button>
     </header>
 
     <section class="cards">
       <div class="card">
         <span>Total Encuestados</span>
-        <h3>1.250</h3>
+        <!-- Ponemos el ID correspondiente para el JavaScript -->
+        <h3 id="totalEncuestados">...</h3>
         <p>Registros procesados</p>
       </div>
 
       <div class="card">
-        <span>Fonasa</span>
-        <h3>68%</h3>
-        <p>Principal sistema de previsión</p>
+        <span>Tiempo Espera Promedio</span>
+        <!-- Ponemos el ID correspondiente para el JavaScript -->
+        <h3 id="esperaPromedio">...</h3>
+        <p>Días estimados</p>
       </div>
 
       <div class="card">
-        <span>Isapre</span>
-        <h3>22%</h3>
-        <p>Usuarios con previsión privada</p>
+        <span>Tiempo Traslado Promedio</span>
+        <!-- Ponemos el ID correspondiente para el JavaScript -->
+        <h3 id="trasladoPromedio">...</h3>
+        <p>Minutos de traslado</p>
       </div>
 
       <div class="card">
-        <span>Tiempo Espera</span>
-        <h3>35 min</h3>
-        <p>Promedio estimado</p>
+        <span>Satisfacción General</span>
+        <!-- Ponemos el ID correspondiente para el JavaScript -->
+        <h3 id="satisfaccionPromedio">...</h3>
+        <p>Nota de 1 a 10</p>
       </div>
     </section>
 
     <section class="dashboard-grid">
 
+      <!-- Reemplazamos las barras fijas de CSS por el gráfico canvas de Chart.js -->
       <div class="panel large">
         <h2>Distribución por Previsión</h2>
-
-        <div class="bar">
-          <div class="label">Fonasa <strong>68%</strong></div>
-          <div class="progress"><span style="width:68%"></span></div>
-        </div>
-
-        <div class="bar">
-          <div class="label">Isapre <strong>22%</strong></div>
-          <div class="progress"><span style="width:22%"></span></div>
-        </div>
-
-        <div class="bar">
-          <div class="label">Otro <strong>10%</strong></div>
-          <div class="progress"><span style="width:10%"></span></div>
+        <div class="chart-container" style="position: relative; height:40vh; width:100%">
+          <canvas id="graficoPrevision"></canvas>
         </div>
       </div>
 
-      <div class="panel">
-        <h2>Acceso a Atención</h2>
-        <div class="circle">82%</div>
-        <p>Personas que lograron acceder a un servicio de salud.</p>
-      </div>
-
-      <div class="panel">
-        <h2>Satisfacción</h2>
-        <div class="circle green">74%</div>
-        <p>Nivel general de satisfacción declarado por los encuestados.</p>
+      <!-- Reemplazamos los círculos fijos por el gráfico circular de Principales Problemas -->
+      <div class="panel large">
+        <h2>Principales Problemas Declarados</h2>
+        <div class="chart-container" style="position: relative; height:40vh; width:100%">
+          <canvas id="graficoProblemas"></canvas>
+        </div>
       </div>
 
       <div class="panel large">
-        <h2>Tabla Resumen</h2>
-
+        <h2>Tabla Resumen (Calidad de Datos)</h2>
         <table>
           <thead>
             <tr>
-              <th>Indicador</th>
-              <th>Resultado</th>
+              <th>Indicador / Campo</th>
+              <th>Completitud</th>
               <th>Estado</th>
             </tr>
           </thead>
-
-          <tbody>
+          <!-- Ponemos el ID en el tbody para que app.js inyecte las filas -->
+          <tbody id="tablaCalidad">
             <tr>
-              <td>Total encuestados</td>
-              <td>1.250</td>
-              <td><span class="status ok">Procesado</span></td>
-            </tr>
-
-            <tr>
-              <td>Previsión dominante</td>
-              <td>Fonasa</td>
-              <td><span class="status ok">Validado</span></td>
-            </tr>
-
-            <tr>
-              <td>Tiempo promedio de espera</td>
-              <td>35 min</td>
-              <td><span class="status warning">Revisar</span></td>
-            </tr>
-
-            <tr>
-              <td>Base de datos</td>
-              <td>MySQL</td>
-              <td><span class="status ok">Conectada</span></td>
+              <td colspan="3" style="text-align: center; color: #888;">Cargando datos reales...</td>
             </tr>
           </tbody>
         </table>
@@ -134,5 +104,7 @@
 
   </main>
 
+  <!-- 2. Vinculamos tu archivo app.js al final para asegurar que cargue los datos -->
+  <script src="app.js"></script>
 </body>
 </html>
