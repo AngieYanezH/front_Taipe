@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard Acceso a Salud</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <aside class="sidebar">
+    <h2>Salud BI</h2>
+
+    <nav>
+      <a href="#" class="active">Dashboard</a>
+      <a href="#">Encuestados</a>
+      <a href="#">Previsión</a>
+      <a href="#">Atención</a>
+      <a href="#">Reportes</a>
+    </nav>
+  </aside>
+
+  <main class="main-content">
+
+    <header class="topbar">
+      <div>
+        <h1>Dashboard Acceso a Servicios de Salud</h1>
+        <p>Análisis de encuesta, ETL, MySQL y visualización de indicadores.</p>
+      </div>
+
+      <button>Exportar reporte</button>
+    </header>
+
+    <section class="cards">
+      <div class="card">
+        <span>Total Encuestados</span>
+        <h3>1.250</h3>
+        <p>Registros procesados</p>
+      </div>
+
+      <div class="card">
+        <span>Fonasa</span>
+        <h3>68%</h3>
+        <p>Principal sistema de previsión</p>
+      </div>
+
+      <div class="card">
+        <span>Isapre</span>
+        <h3>22%</h3>
+        <p>Usuarios con previsión privada</p>
+      </div>
+
+      <div class="card">
+        <span>Tiempo Espera</span>
+        <h3>35 min</h3>
+        <p>Promedio estimado</p>
+      </div>
+    </section>
+
+    <section class="dashboard-grid">
+
+      <div class="panel large">
+        <h2>Distribución por Previsión</h2>
+
+        <div class="bar">
+          <div class="label">Fonasa <strong>68%</strong></div>
+          <div class="progress"><span style="width:68%"></span></div>
+        </div>
+
+        <div class="bar">
+          <div class="label">Isapre <strong>22%</strong></div>
+          <div class="progress"><span style="width:22%"></span></div>
+        </div>
+
+        <div class="bar">
+          <div class="label">Otro <strong>10%</strong></div>
+          <div class="progress"><span style="width:10%"></span></div>
+        </div>
+      </div>
+
+      <div class="panel">
+        <h2>Acceso a Atención</h2>
+        <div class="circle">82%</div>
+        <p>Personas que lograron acceder a un servicio de salud.</p>
+      </div>
+
+      <div class="panel">
+        <h2>Satisfacción</h2>
+        <div class="circle green">74%</div>
+        <p>Nivel general de satisfacción declarado por los encuestados.</p>
+      </div>
+
+      <div class="panel large">
+        <h2>Tabla Resumen</h2>
+
+        <table>
+          <thead>
+            <tr>
+              <th>Indicador</th>
+              <th>Resultado</th>
+              <th>Estado</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <tr>
+              <td>Total encuestados</td>
+              <td>1.250</td>
+              <td><span class="status ok">Procesado</span></td>
+            </tr>
+
+            <tr>
+              <td>Previsión dominante</td>
+              <td>Fonasa</td>
+              <td><span class="status ok">Validado</span></td>
+            </tr>
+
+            <tr>
+              <td>Tiempo promedio de espera</td>
+              <td>35 min</td>
+              <td><span class="status warning">Revisar</span></td>
+            </tr>
+
+            <tr>
+              <td>Base de datos</td>
+              <td>MySQL</td>
+              <td><span class="status ok">Conectada</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+    </section>
+
+  </main>
+
+</body>
+</html>
